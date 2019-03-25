@@ -1,0 +1,66 @@
+<hello>
+</hello>
+<H1 style="text-align: center"> Onibus online </H1>
+
+<div class="input-field ">
+	<input placeholder="Insira a linha do onibus"  type="text" class="validate" [(ngModel)]="linha">
+</div>
+<br>
+<br>
+<button class="waves-effect waves-light btn" (click)="getBus()" >
+  <label>BUSCAR</label>
+</button>
+<br><br>
+<table *ngIf="linhas" style="width:100%; ">
+  <tr>
+    <th>Número</th>
+    <th>Linha</th>
+    <th>Operadora</th> 
+  </tr>
+  <tr *ngFor="let linha of linhas">
+      <td>
+        {{linha.properties.numero}}
+      </td>
+      <td>
+        {{linha.properties.linha}}
+      </td>
+      <td>
+        {{linha.properties.operadora}}
+      </td>
+  </tr>
+<br><br>
+</table>
+
+<agm-map 
+  *ngIf="linhas" 
+  [latitude]="lat"
+  [longitude]="lng"
+  [zoom]="zoom"
+  [disableDefaultUI]="false"
+  [zoomControl]="false"
+  >
+
+  <agm-marker 
+      *ngFor="let linha of linhas; let i = index"
+      [latitude]="linha.geometry.coordinates[1]"
+      [longitude]="linha.geometry.coordinates[0]"
+      [label]="linha.properties.numero"
+      (dragEnd)="markerDragEnd(linha, $event)">
+<!-- 
+        <agm-marker 
+      *ngFor="let linha of linhas; let i = index"
+      [latitude]="linha.geometry.coordinates[1]"
+      [longitude]="linha.geometry.coordinates[0]"
+      [label]="linha.properties.numero"
+      [markerDraggable]="m.draggable"
+      (dragEnd)="markerDragEnd(m, $event)"> -->
+      
+    <agm-info-window>
+      <strong>InfoWindow content</strong>
+    </agm-info-window>
+    
+  </agm-marker>
+
+  <agm-marker [latitude]="lat" [longitude]="lng" [label]="'Você'" style="background-color: blue"></agm-marker>
+  
+</agm-map>
