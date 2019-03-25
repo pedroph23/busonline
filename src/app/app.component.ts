@@ -19,7 +19,7 @@ export class AppComponent {
   public markers: marker[];
 
   constructor(private service: AppService) { }
-
+   
 
   clickedMarker(label: string, index: number) {
     console.log(`clicked the marker: ${label || index}`)
